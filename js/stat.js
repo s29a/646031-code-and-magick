@@ -18,19 +18,11 @@ var renderCloud = function (ctx, x, y, color) {
 };
 
 var getMaxElement = function (arr) {
-  var maxElement = arr[0];
-
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i] > maxElement) {
-      maxElement = arr[i];
-    }
-  }
-
-  return maxElement;
+  return Math.max.apply(null, arr);
 };
 
 var randomVal = function (min, max) {
-  return Math.floor(Math.random() * (max - min) + 1) + min;
+  return Math.floor(min + Math.random() * (max + 1 - min));
 };
 
 window.renderStatistics = function (ctx, names, times) {
@@ -54,6 +46,7 @@ window.renderStatistics = function (ctx, names, times) {
     } else {
       ctx.fillStyle = 'hsl(240, ' + randomVal(0, 100) + '%, 50%)';
     }
+
     ctx.fillRect(CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i, CLOUD_Y + CLOUD_HEIGHT - TOP_GAP - FONT_GAP / 2 - (BAR_HEIGHT * times[i]) / maxTime, BAR_WIDTH, (BAR_HEIGHT * times[i]) / maxTime);
   }
 };
