@@ -15,9 +15,10 @@ var userDialogClose = userDialog.querySelector('.setup-close');
 var playerCoat = userDialog.querySelector('.setup-wizard .wizard-coat');
 var playerEye = userDialog.querySelector('.setup-wizard .wizard-eyes');
 var playerFireball = userDialog.querySelector('.setup-fireball-wrap');
+var dialogInputName = userDialog.querySelector('.setup-user-name');
 
 var onPopupEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === ESC_KEYCODE && evt.target != dialogInputName) {
     closePopup();
   }
 };
@@ -53,34 +54,16 @@ userDialogClose.addEventListener('keydown', function (evt) {
 });
 
 playerCoat.addEventListener('click', function () {
-  userDialogChangeCoatColor();
+  playerCoat.style.fill = nextValueFromArr(userDialog.querySelector('[name="coat-color"]'), WIZARD_COAT_COLORS);
 });
 
 playerEye.addEventListener('click', function () {
-  userDialogChangeEyeColor();
+  playerEye.style.fill = nextValueFromArr(userDialog.querySelector('[name="eyes-color"]'), WIZARD_EYE_COLORS);
 });
 
 playerFireball.addEventListener('click', function () {
-  userDialogChangeFireballColor();
+  playerFireball.style.background = nextValueFromArr(userDialog.querySelector('[name="fireball-color"]'), WIZARD_FIREBALL_COLORS);
 });
-
-var userDialogChangeCoatColor = function () {
-  var input = userDialog.querySelector('[name="coat-color"]');
-  nextValueFromArr(input, WIZARD_COAT_COLORS);
-  playerCoat.style.fill = input.value;
-};
-
-var userDialogChangeEyeColor = function () {
-  var input = userDialog.querySelector('[name="eyes-color"]');
-  nextValueFromArr(input, WIZARD_EYE_COLORS);
-  playerEye.style.fill = input.value;
-};
-
-var userDialogChangeFireballColor = function () {
-  var input = userDialog.querySelector('[name="fireball-color"]');
-  nextValueFromArr(input, WIZARD_FIREBALL_COLORS);
-  playerFireball.style.background = input.value;
-};
 
 var nextValueFromArr = function (input, arr) {
   var i = arr.indexOf(input.value);
@@ -90,6 +73,8 @@ var nextValueFromArr = function (input, arr) {
   } else {
     input.value = arr[0];
   }
+
+  return input.value;
 };
 
 var getRandomArrItem = function (arr, del) {
