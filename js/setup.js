@@ -18,7 +18,7 @@ var playerFireball = userDialog.querySelector('.setup-fireball-wrap');
 var dialogInputName = userDialog.querySelector('.setup-user-name');
 
 var onPopupEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE && evt.target != dialogInputName) {
+  if (evt.keyCode === ESC_KEYCODE && evt.target !== dialogInputName) {
     closePopup();
   }
 };
