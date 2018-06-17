@@ -6,52 +6,12 @@ var WIZARD_COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 1
 var WIZARD_EYE_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 var WIZARD_FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 var WIZARDS_COUNT = 4;
-var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
 
 var userDialog = document.querySelector('.setup');
-var userDialogOpen = document.querySelector('.setup-open');
-var userDialogClose = userDialog.querySelector('.setup-close');
 var playerCoat = userDialog.querySelector('.setup-wizard .wizard-coat');
 var playerEye = userDialog.querySelector('.setup-wizard .wizard-eyes');
 var playerFireball = userDialog.querySelector('.setup-fireball-wrap');
-var dialogInputName = userDialog.querySelector('.setup-user-name');
 
-var onPopupEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE && evt.target !== dialogInputName) {
-    closePopup();
-  }
-};
-
-var openPopup = function () {
-  userDialog.classList.remove('hidden');
-  document.addEventListener('keydown', onPopupEscPress);
-};
-
-var closePopup = function () {
-  userDialog.classList.add('hidden');
-  document.removeEventListener('keydown', onPopupEscPress);
-};
-
-userDialogOpen.addEventListener('click', function () {
-  openPopup();
-});
-
-userDialogOpen.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    openPopup();
-  }
-});
-
-userDialogClose.addEventListener('click', function () {
-  closePopup();
-});
-
-userDialogClose.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    closePopup();
-  }
-});
 
 playerCoat.addEventListener('click', function () {
   playerCoat.style.fill = nextValueFromArr(userDialog.querySelector('[name="coat-color"]'), WIZARD_COAT_COLORS);
