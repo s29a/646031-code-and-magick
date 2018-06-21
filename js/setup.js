@@ -6,10 +6,19 @@ var WIZARD_FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e8
 var WIZARDS_COUNT = 4;
 
 var userDialog = document.querySelector('.setup');
+var form = userDialog.querySelector('.setup-wizard-form');
 var playerCoat = userDialog.querySelector('.setup-wizard .wizard-coat');
 var playerEye = userDialog.querySelector('.setup-wizard .wizard-eyes');
 var playerFireball = userDialog.querySelector('.setup-fireball-wrap');
 
+form.addEventListener('submit', function (evt) {
+  window.backend.save(new FormData(form), function () {
+    userDialog.classList.add('hidden');
+  }, function (message) {
+    console.log(message);
+  });
+  evt.preventDefault();
+});
 
 playerCoat.addEventListener('click', function () {
   playerCoat.style.fill = nextValueFromArr(userDialog.querySelector('[name="coat-color"]'), WIZARD_COAT_COLORS);
@@ -40,8 +49,8 @@ var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
 
   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-  wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-  wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+  wizardElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
+  wizardElement.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
 
   return wizardElement;
 };
@@ -50,7 +59,7 @@ var showWizardsList = function (wizards) {
   var similarListElement = userDialog.querySelector('.setup-similar-list');
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < wizards.length; i++) {
+  for (var i = 0; i < WIZARDS_COUNT; i++) {
     fragment.appendChild(renderWizard(wizards[i]));
   }
 
@@ -58,5 +67,16 @@ var showWizardsList = function (wizards) {
   userDialog.querySelector('.setup-similar').classList.remove('hidden');
 };
 
-showWizardsList(window.data.createRandomWizards(WIZARDS_COUNT, WIZARD_COAT_COLORS.slice(), WIZARD_EYE_COLORS.slice()));
+var errorHandler = function (errorMessage) {
+  var node = document.createElement('div');
+  node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+  node.style.position = 'absolute';
+  node.style.left = 0;
+  node.style.right = 0;
+  node.style.fontSize = '30px';
 
+  node.textContent = errorMessage;
+  document.body.insertAdjacentElement('afterbegin', node);
+};
+
+window.backend.load(showWizardsList, errorHandler);
