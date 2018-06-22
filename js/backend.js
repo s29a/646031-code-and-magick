@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var NO_ERROR = 200;
 
   var createXhr = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
@@ -8,7 +9,7 @@
 
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
-        case 200:
+        case NO_ERROR:
           onLoad(xhr.response);
           break;
 
