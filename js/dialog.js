@@ -3,7 +3,9 @@
 (function () {
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
-  var userDialog = document.querySelector('.setup');
+
+  var userDialog = window.setup.userDialog;
+  var form = userDialog.querySelector('.setup-wizard-form');
   var userDialogOpen = document.querySelector('.setup-open');
   var userDialogClose = userDialog.querySelector('.setup-close');
   var dialogInputName = userDialog.querySelector('.setup-user-name');
@@ -19,6 +21,20 @@
     x: userDialog.style.left,
     y: userDialog.style.top
   };
+
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  window.backend.load(window.setup.showWizardsList, errorHandler);
 
   var openPopup = function () {
     userDialog.classList.remove('hidden');
@@ -50,6 +66,13 @@
     if (evt.keyCode === ENTER_KEYCODE) {
       closePopup();
     }
+  });
+
+  form.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(form), function () {
+      userDialog.classList.add('hidden');
+    }, errorHandler);
+    evt.preventDefault();
   });
 
   artifacts.forEach(function (item) {
