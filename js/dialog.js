@@ -4,9 +4,8 @@
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
 
-  window.dialog = document.querySelector('.setup');
 
-  var userDialog = window.dialog;
+  var userDialog = window.setup.userDialog;
   var form = userDialog.querySelector('.setup-wizard-form');
   var userDialogOpen = document.querySelector('.setup-open');
   var userDialogClose = userDialog.querySelector('.setup-close');
@@ -18,7 +17,6 @@
       closePopup();
     }
   };
-
 
   var defaultPopupCoords = {
     x: userDialog.style.left,
@@ -37,11 +35,12 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
+  window.backend.load(window.setup.showWizardsList, errorHandler);
+
   var openPopup = function () {
     userDialog.classList.remove('hidden');
     userDialog.style.left = defaultPopupCoords.x;
     userDialog.style.top = defaultPopupCoords.y;
-    window.backend.load(window.setup.showWizardsList, errorHandler);
     document.addEventListener('keydown', onPopupEscPress);
   };
 

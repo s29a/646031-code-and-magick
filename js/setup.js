@@ -5,7 +5,7 @@
   var WIZARD_FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
   var WIZARDS_COUNT = 4;
 
-  var userDialog = window.dialog;
+  var userDialog = document.querySelector('.setup');
   var playerCoat = userDialog.querySelector('.setup-wizard .wizard-coat');
   var playerEye = userDialog.querySelector('.setup-wizard .wizard-eyes');
   var playerFireball = userDialog.querySelector('.setup-fireball-wrap');
@@ -46,6 +46,7 @@
   };
 
   window.setup = {
+    userDialog: userDialog,
     showWizardsList: function (wizards) {
       var similarListElement = userDialog.querySelector('.setup-similar-list');
       var fragment = document.createDocumentFragment();
