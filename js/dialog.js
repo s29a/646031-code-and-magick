@@ -4,7 +4,6 @@
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
 
-
   var userDialog = window.setup.userDialog;
   var form = userDialog.querySelector('.setup-wizard-form');
   var userDialogOpen = document.querySelector('.setup-open');
