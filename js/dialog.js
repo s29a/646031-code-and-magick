@@ -4,13 +4,28 @@
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
 
-  var userDialog = window.setup.userDialog;
+  var userDialog = document.querySelector('.setup');
   var form = userDialog.querySelector('.setup-wizard-form');
   var userDialogOpen = document.querySelector('.setup-open');
   var userDialogClose = userDialog.querySelector('.setup-close');
   var dialogInputName = userDialog.querySelector('.setup-user-name');
   var artifacts = userDialog.querySelectorAll('[draggable="true"]');
   var dialogHandler = userDialog.querySelector('.upload');
+
+  window.dialog = {
+    errorHandler: function (errorMessage) {
+      var node = document.createElement('div');
+      node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+      node.style.position = 'absolute';
+      node.style.left = 0;
+      node.style.right = 0;
+      node.style.fontSize = '30px';
+
+      node.textContent = errorMessage;
+      document.body.insertAdjacentElement('afterbegin', node);
+    }
+  };
+
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE && evt.target !== dialogInputName) {
       closePopup();
@@ -21,20 +36,6 @@
     x: userDialog.style.left,
     y: userDialog.style.top
   };
-
-  var errorHandler = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
-  };
-
-  window.backend.load(window.setup.showWizardsList, errorHandler);
 
   var openPopup = function () {
     userDialog.classList.remove('hidden');
@@ -71,7 +72,7 @@
   form.addEventListener('submit', function (evt) {
     window.backend.save(new FormData(form), function () {
       userDialog.classList.add('hidden');
-    }, errorHandler);
+    }, window.dialog.errorHandler);
     evt.preventDefault();
   });
 
